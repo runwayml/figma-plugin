@@ -1,0 +1,21 @@
+{
+  "name": "Runway",
+  "id": "1502691635872451437",
+  "api": "1.0.0",
+  "main": "code.js",
+  "capabilities": [],
+  "enableProposedApi": false,
+  "documentAccess": "dynamic-page",
+  "editorType": ["figma"],
+  "ui": "ui.html",
+  "networkAccess": {
+    "allowedDomains": [
+      "https://proxy.corsfix.com",
+      "https://runway.github.io",
+      "https://dnznrvs05pmza.cloudfront.net",
+      "https://fonts.googleapis.com",
+      "https://fonts.gstatic.com",
+      "https://encrypted-tbn2.gstatic.com"
+    ]
+  }
+}

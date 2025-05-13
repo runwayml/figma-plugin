@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: Inter, sans-serif;
+        padding: 20px;
+        margin: 0;
+      }
+      h3 {
+        margin: 0;
+        font-weight: 500;
+        font-size: 18px;
+      }
+      p {
+        margin: 0;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .settings {
+        border: 1px solid #e5e5e5;
+        padding: 16px;
+        border-radius: 8px;
+      }
+      .api-key-input {
+        width: 100%;
+        padding: 8px;
+        margin: 8px 0;
+        box-sizing: border-box;
+      }
+      .button {
+        background: #2c22fa;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        margin: 4px 0;
+        cursor: pointer;
+        width: 100%;
+        font-weight: 600;
+      }
+      .button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+      #status {
+        margin-top: 8px;
+        color: #666;
+        font-size: 14px;
+      }
+      #videoContainer {
+        margin-top: 16px;
+      }
+      .preview-container {
+        border: 1px solid #e5e5e5;
+        padding: 8px;
+        border-radius: 8px;
+        margin-top: 16px;
+        overflow: auto;
+      }
+      #previewImages {
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+        height: 100px;
+      }
+      .preview-image {
+        width: auto;
+        height: 100%;
+        border-radius: 4px;
+        cursor: move;
+      }
+      .generated-image {
+        width: 100%;
+        height: auto;
+        cursor: move;
+      }
+      .selection-message {
+        color: #666;
+        text-align: center;
+        padding: 20px;
+      }
+      .settings-icon {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        align-self: flex-end;
+      }
+      #generateVideoContainer {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+      }
+      #prompt {
+        width: 100%;
+        padding: 8px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        display: block;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-family: "Inter", sans-serif;
+        font-size: 14px;
+      }
+      select {
+        padding: 7px 2px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        min-height: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="settingsIcon" class="settings-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-settings"
+        >
+          <path
+            d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+          ></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+      </div>
+      <div class="settings" id="settings">
+        <h3>Runway API Settings</h3>
+        <input
+          type="password"
+          id="apiKey"
+          class="api-key-input"
+          placeholder="Enter your Runway API key"
+        />
+        <button id="saveApiKey" class="button">Save API Key</button>
+        <p id="apiKeyStatus"></p>
+      </div>
+
+      <div id="videoGeneration" style="display: none">
+        <h3>Generation Settings</h3>
+        <div class="preview-container">
+          <div id="selectionMessage" class="selection-message">
+            Select up to 3 frames
+          </div>
+          <div id="previewImages" style="display: none"></div>
+        </div>
+        <textarea id="prompt" placeholder="Enter a prompt"></textarea>
+        <button id="generateImage" class="button">Generate Image</button>
+        <div id="generateVideoContainer" style="display: none">
+          <select id="duration">
+            <option value="5">5s</option>
+            <option value="10">10s</option>
+          </select>
+          <button id="generateVideo" class="button">Generate Video</button>
+        </div>
+        <div id="status"></div>
+        <div id="generationsContainer"></div>
+      </div>
+    </div>
+
+    <script>
+      // Get DOM elements
+      const apiKeyInput = document.getElementById("apiKey");
+      const saveApiKeyButton = document.getElementById("saveApiKey");
+      const apiKeyStatus = document.getElementById("apiKeyStatus");
+      const videoGeneration = document.getElementById("videoGeneration");
+      const generateVideoContainer = document.getElementById(
+        "generateVideoContainer"
+      );
+      const generateVideoButton = document.getElementById("generateVideo");
+      const generateImageButton = document.getElementById("generateImage");
+      const statusElement = document.getElementById("status");
+      const previewImages = document.getElementById("previewImages");
+      const selectionMessage = document.getElementById("selectionMessage");
+      const settingsIcon = document.getElementById("settingsIcon");
+      const settings = document.getElementById("settings");
+      const promptTextArea = document.getElementById("prompt");
+      const durationSelect = document.getElementById("duration");
+      let isSettingsOpen = true;
+
+      // You can get this plugin id once you have installed the plugin.
+      const PLUGIN_ID = "1502691635872451437";
+
+      settingsIcon.onclick = () => {
+        isSettingsOpen = !isSettingsOpen;
+        if (isSettingsOpen) {
+          settings.style.display = "block";
+        } else {
+          settings.style.display = "none";
+        }
+      };
+
+      // Request the API key when page loads
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: "get-api-key",
+          },
+          pluginId: PLUGIN_ID,
+        },
+        "*"
+      );
+
+      // Handle save API key
+      saveApiKeyButton.onclick = () => {
+        const apiKey = apiKeyInput.value.trim();
+        if (apiKey) {
+          parent.postMessage(
+            {
+              pluginMessage: {
+                type: "save-api-key",
+                apiKey,
+              },
+              pluginId: PLUGIN_ID,
+            },
+            "*"
+          );
+        }
+      };
+
+      // Handle generate video
+      generateVideoButton.onclick = () => {
+        statusElement.textContent = "";
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: "generate-video",
+            },
+            pluginId: PLUGIN_ID,
+          },
+          "*"
+        );
+      };
+
+      // Handle generate image
+      generateImageButton.onclick = () => {
+        statusElement.textContent = "";
+        parent.postMessage(
+          {
+            pluginMessage: {
+              type: "generate-image",
+            },
+            pluginId: PLUGIN_ID,
+          },
+          "*"
+        );
+      };
+
+      async function pollTaskStatus(taskId, apiKey) {
+        while (true) {
+          const POLLING_INTERVAL_MS = 5000; // a call will be made once every 5 seconds to check the status of the generation.
+          await new Promise((resolve) =>
+            setTimeout(resolve, POLLING_INTERVAL_MS)
+          );
+
+          const statusResponse = await fetch(
+            `https://proxy.corsfix.com/?https://api.dev.runwayml.com/v1/tasks/${taskId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${apiKey}`,
+                "X-Runway-Version": "2024-11-06",
+              },
+            }
+          );
+
+          if (!statusResponse.ok) {
+            const error = await statusResponse.json();
+            throw new Error(error.message || "Failed to check task status");
+          }
+
+          const statusData = await statusResponse.json();
+
+          if (statusData.status === "SUCCEEDED") {
+            return statusData.output[0];
+          } else if (statusData.status === "FAILED") {
+            throw new Error("Generation failed");
+          }
+
+          statusElement.textContent = "Generating...";
+        }
+      }
+
+      // Listen for messages from the plugin
+      window.onmessage = async (event) => {
+        const message = event.data.pluginMessage;
+        console.log("Received message:", message);
+
+        if (message.type === "api-key-loaded") {
+          apiKeyInput.value = message.apiKey || "";
+          apiKeyStatus.textContent = message.apiKey ? "" : "No API key saved";
+          videoGeneration.style.display = message.apiKey ? "block" : "none";
+          if (message.apiKey) {
+            settings.style.display = "none";
+            isSettingsOpen = false;
+          }
+        } else if (message.type === "api-key-saved") {
+          apiKeyStatus.textContent = "API key saved";
+          videoGeneration.style.display = "block";
+        } else if (message.type === "selection-changed") {
+          if (message.hasValidFrame && message.imageData) {
+            previewImages.style.display = "flex";
+            generateVideoContainer.style.display = "flex";
+            if (message.imageData.length > 1) {
+              generateVideoButton.disabled = true;
+            } else {
+              generateVideoButton.disabled = false;
+            }
+            selectionMessage.style.display = "none";
+            promptTextArea.style.display = "block";
+            previewImages.innerHTML = "";
+            for (const image of message.imageData) {
+              const img = document.createElement("img");
+              img.src = image;
+              img.classList.add("preview-image");
+              img.draggable = true;
+              img.addEventListener("dragstart", (e) => {
+                e.dataTransfer.setData("text/plain", image);
+                e.dataTransfer.effectAllowed = "copy";
+              });
+              previewImages.appendChild(img);
+            }
+          } else {
+            previewImages.style.display = "none";
+            generateVideoContainer.style.display = "none";
+            selectionMessage.style.display = "block";
+          }
+          if (message.error) {
+            selectionMessage.textContent = message.error;
+          } else {
+            selectionMessage.textContent = "Select up to 3 frames";
+          }
+        } else if (message.type === "start-image-generation") {
+          const apiKey = apiKeyInput.value.trim();
+          if (!apiKey) {
+            statusElement.textContent =
+              "Error: Please set your Runway API key first";
+            return;
+          }
+          if (promptTextArea.value.length === 0) {
+            statusElement.textContent = "Please enter a prompt";
+            return;
+          }
+
+          try {
+            statusElement.textContent = "Starting image generation...";
+
+            const response = await fetch(
+              "https://proxy.corsfix.com/?https://api.dev.runwayml.com/v1/text_to_image",
+              {
+                method: "POST",
+                headers: {
+                  Authorization: `Bearer ${apiKey}`,
+                  "X-Runway-Version": "2024-11-06",
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  promptText: promptTextArea.value,
+                  outputCount: 1,
+                  model: "frames",
+                  ratio: "1920:1088",
+                }),
+              }
+            );
+
+            if (!response.ok) {
+              const error = await response.json();
+              throw new Error(
+                error.message || "Failed to start image generation"
+              );
+            }
+
+            const data = await response.json();
+            const imageUrl = await pollTaskStatus(data.id, apiKey);
+
+            statusElement.textContent = "Image generated successfully!";
+            const generationsContainer = document.getElementById(
+              "generationsContainer"
+            );
+            const image = document.createElement("img");
+            image.src = imageUrl;
+            image.classList.add("generated-image");
+            image.draggable = true;
+            image.addEventListener("dragend", (e) => {
+              // Don't proceed if the item was dropped inside the plugin window.
+              if (e.view.length === 0) return;
+
+              // Send the file information and coordinates to the plugin
+              const file = new File([e.target.innerHTML], e.target.src, {
+                type: "image/jpeg",
+              });
+              window.parent.postMessage(
+                {
+                  pluginDrop: {
+                    clientX: e.clientX,
+                    clientY: e.clientY,
+                    files: [file],
+                  },
+                },
+                "*"
+              );
+            });
+
+            generationsContainer.appendChild(image);
+
+            // Send image URL back to plugin code
+            parent.postMessage(
+              {
+                pluginMessage: {
+                  type: "image-ready",
+                  imageUrl: imageUrl,
+                },
+                pluginId: PLUGIN_ID,
+              },
+              "*"
+            );
+          } catch (error) {
+            selectionMessage.style.display = "block";
+            statusElement.textContent = `Error: ${error.message}`;
+          }
+        } else if (message.type === "start-video-generation") {
+          const apiKey = apiKeyInput.value.trim();
+          if (!apiKey) {
+            statusElement.textContent =
+              "Error: Please set your Runway API key first";
+            return;
+          }
+
+          // Update preview image
+          selectionMessage.style.display = "none";
+
+          try {
+            statusElement.textContent = "Starting video generation...";
+
+            const response = await fetch(
+              "https://proxy.corsfix.com/?https://api.dev.runwayml.com/v1/image_to_video",
+              {
+                method: "POST",
+                headers: {
+                  Authorization: `Bearer ${apiKey}`,
+                  "X-Runway-Version": "2024-11-06",
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  promptImage: message.imageData,
+                  seed: Math.floor(Math.random() * 1000000000),
+                  model: "gen4_turbo",
+                  promptText: promptTextArea.value || "animate scene",
+                  duration: parseInt(durationSelect.value),
+                  ratio: message.aspectRatio,
+                }),
+              }
+            );
+
+            if (!response.ok) {
+              const error = await response.json();
+              throw new Error(
+                error.message || "Failed to start video generation"
+              );
+            }
+
+            const data = await response.json();
+            const videoUrl = await pollTaskStatus(data.id, apiKey);
+
+            statusElement.textContent = "Video generated successfully!";
+            const generationsContainer = document.getElementById(
+              "generationsContainer"
+            );
+            const video = document.createElement("video");
+            video.controls = true;
+            video.src = videoUrl;
+            video.style.width = "100%";
+            video.style.height = "auto";
+
+            generationsContainer.appendChild(video);
+
+            // Send video URL back to plugin code
+            parent.postMessage(
+              {
+                pluginMessage: {
+                  type: "video-ready",
+                  videoUrl: videoUrl,
+                  aspectRatio: message.aspectRatio,
+                },
+                pluginId: PLUGIN_ID,
+              },
+              "*"
+            );
+          } catch (error) {
+            selectionMessage.style.display = "block";
+            statusElement.textContent = `Error: ${error.message}`;
+          }
+        } else if (message.type === "error") {
+          selectionMessage.style.display = "block";
+          statusElement.textContent = `Error: ${message.error}`;
+        }
+      };
+
+      // Add drag and drop event handlers for the entire document
+      document.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "copy";
+      });
+
+      document.addEventListener("drop", (e) => {
+        e.preventDefault();
+        const imageUrl = e.dataTransfer.getData("text/plain");
+        if (imageUrl) {
+          // Send message to plugin to create the image
+          parent.postMessage(
+            {
+              pluginMessage: {
+                type: "create-image",
+                imageUrl: imageUrl,
+              },
+              pluginId: PLUGIN_ID,
+            },
+            "*"
+          );
+        }
+      });
+    </script>
+  </body>
+</html>
