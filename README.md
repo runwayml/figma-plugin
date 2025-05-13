@@ -53,3 +53,7 @@ for the browser to run.
 Install the package dependencies by running the command:
 
 npm install
+
+Run the watch script to continuously compile typescript:
+
+npm run watch

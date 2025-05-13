@@ -15,6 +15,7 @@
       }
       h3 {
         margin: 0;
+        padding: 0;
         font-weight: 500;
         font-size: 18px;
       }
@@ -27,7 +28,7 @@
         gap: 16px;
       }
       .settings {
-        border: 1px solid #e5e5e5;
+        border: 1px solid #a0aec0;
         padding: 16px;
         border-radius: 8px;
       }
@@ -47,6 +48,8 @@
         cursor: pointer;
         width: 100%;
         font-weight: 600;
+        height: 40px;
+        margin-bottom: 24px;
       }
       .button:disabled {
         background: #ccc;
@@ -61,7 +64,7 @@
         margin-top: 16px;
       }
       .preview-container {
-        border: 1px solid #e5e5e5;
+        border: 1px solid #a0aec0;
         padding: 8px;
         border-radius: 8px;
         margin-top: 16px;
@@ -89,6 +92,11 @@
         text-align: center;
         padding: 20px;
       }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
       .settings-icon {
         width: 20px;
         height: 20px;
@@ -97,7 +105,7 @@
       }
       #generateVideoContainer {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         gap: 8px;
         align-items: center;
       }
@@ -107,40 +115,119 @@
         margin: 8px 0;
         box-sizing: border-box;
         display: block;
-        border: 1px solid #ccc;
+        border: 1px solid #a0aec0;
         border-radius: 8px;
         font-family: "Inter", sans-serif;
         font-size: 14px;
       }
       select {
         padding: 7px 2px;
-        border: 1px solid #ccc;
+        border: 1px solid #a0aec0;
         border-radius: 8px;
         min-height: 20px;
+        width: 100%;
+      }
+      .tabs {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        padding: 8px 0;
+        margin-top: 8px;
+      }
+      .tab-item {
+        flex: 1;
+        text-align: center;
+        border-bottom: 1px solid #a0aec0;
+        padding: 8px 0;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+        color: #a0aec0;
+        cursor: pointer;
+      }
+      .tab-item.active {
+        border-bottom: 4px solid #000;
+        color: #000;
+      }
+      #generationsContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 24px 0;
+        box-sizing: border-box;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      h4 {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px; /* 150% */
+        margin: 0;
+      }
+      p {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px; /* 142.857% */
+        color: #7c839c;
+        margin: 6px 0;
+      }
+      .generation-item {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        flex-direction: column;
+        padding: 8px 0;
+        border-bottom: 1px solid #a0aec0;
+      }
+      .generation-item-actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+      }
+      .icon-button {
+        background: none;
+        border: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        border: 1px solid var(--Text-Secondary, #a0aec0);
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+      }
+      .icon-button svg {
+        stroke: #7c839c;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <div id="settingsIcon" class="settings-icon">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-settings"
-        >
-          <path
-            d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
-          ></path>
-          <circle cx="12" cy="12" r="3"></circle>
-        </svg>
-      </div>
+      <header>
+        <h3>Generation Settings</h3>
+        <div id="settingsIcon" class="settings-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-settings"
+          >
+            <path
+              d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+            ></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        </div>
+      </header>
+
       <div class="settings" id="settings">
         <h3>Runway API Settings</h3>
         <input
@@ -154,24 +241,35 @@
       </div>
 
       <div id="videoGeneration" style="display: none">
-        <h3>Generation Settings</h3>
         <div class="preview-container">
           <div id="selectionMessage" class="selection-message">
             Select up to 3 frames
           </div>
           <div id="previewImages" style="display: none"></div>
         </div>
+        <div id="tabs" class="tabs">
+          <div id="tabs-image" class="tab-item active">Image</div>
+          <div id="tabs-video" class="tab-item">Video</div>
+        </div>
         <textarea id="prompt" placeholder="Enter a prompt"></textarea>
-        <button id="generateImage" class="button">Generate Image</button>
+        <div id="generateImageContainer">
+          <button id="generateImage" class="button">Generate Image</button>
+        </div>
         <div id="generateVideoContainer" style="display: none">
           <select id="duration">
-            <option value="5">5s</option>
-            <option value="10">10s</option>
+            <option value="5">5 seconds</option>
+            <option value="10">10 seconds</option>
           </select>
           <button id="generateVideo" class="button">Generate Video</button>
         </div>
-        <div id="status"></div>
-        <div id="generationsContainer"></div>
+        <div id="generationsContainer">
+          <h4>Generations</h4>
+          <p>
+            Generations will appear here. Drag images to place on canvas.
+            Removing or closing the plugin will permanently delete generations
+          </p>
+          <div id="status"></div>
+        </div>
       </div>
     </div>
 
@@ -193,7 +291,11 @@
       const settings = document.getElementById("settings");
       const promptTextArea = document.getElementById("prompt");
       const durationSelect = document.getElementById("duration");
+      const imageTab = document.getElementById("tabs-image");
+      const videoTab = document.getElementById("tabs-video");
+
       let isSettingsOpen = true;
+      let activeTab = "image";
 
       // You can get this plugin id once you have installed the plugin.
       const PLUGIN_ID = "1502691635872451437";
@@ -205,6 +307,30 @@
         } else {
           settings.style.display = "none";
         }
+      };
+
+      function showImageTab() {
+        activeTab = "image";
+        imageTab.classList.add("active");
+        videoTab.classList.remove("active");
+        generateImageContainer.style.display = "block";
+        generateVideoContainer.style.display = "none";
+      }
+      function showVideoTab() {
+        activeTab = "video";
+        videoTab.classList.add("active");
+        imageTab.classList.remove("active");
+        generateImageContainer.style.display = "none";
+        generateVideoContainer.style.display = "flex";
+      }
+      function disableVideoGen() {}
+
+      imageTab.onclick = () => {
+        showImageTab();
+      };
+
+      videoTab.onclick = () => {
+        showVideoTab();
       };
 
       // Request the API key when page loads
@@ -316,7 +442,6 @@
         } else if (message.type === "selection-changed") {
           if (message.hasValidFrame && message.imageData) {
             previewImages.style.display = "flex";
-            generateVideoContainer.style.display = "flex";
             if (message.imageData.length > 1) {
               generateVideoButton.disabled = true;
             } else {
@@ -338,8 +463,8 @@
             }
           } else {
             previewImages.style.display = "none";
-            generateVideoContainer.style.display = "none";
             selectionMessage.style.display = "block";
+            generateVideoButton.disabled = true;
           }
           if (message.error) {
             selectionMessage.textContent = message.error;
@@ -393,6 +518,8 @@
             const generationsContainer = document.getElementById(
               "generationsContainer"
             );
+            const generationItem = document.createElement("div");
+            generationItem.classList.add("generation-item");
             const image = document.createElement("img");
             image.src = imageUrl;
             image.classList.add("generated-image");
@@ -417,7 +544,37 @@
               );
             });
 
-            generationsContainer.appendChild(image);
+            // Create actions container and delete button
+            const actionsContainer = document.createElement("div");
+            actionsContainer.classList.add("generation-item-actions");
+
+            const deleteButton = document.createElement("button");
+            deleteButton.classList.add("icon-button");
+            deleteButton.innerHTML = `
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-x"
+              >
+                <path d="M18 6 6 18"></path>
+                <path d="m6 6 12 12"></path>
+              </svg>
+            `;
+            deleteButton.onclick = () => {
+              generationItem.remove();
+            };
+
+            actionsContainer.appendChild(deleteButton);
+            generationItem.appendChild(image);
+            generationItem.appendChild(actionsContainer);
+            generationsContainer.appendChild(generationItem);
 
             // Send image URL back to plugin code
             parent.postMessage(

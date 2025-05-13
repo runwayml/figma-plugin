@@ -8,7 +8,7 @@
 
 // Uncomment the following to use this for local dev mode.
 // figma.showUI(__html__, {
-//   width: 320,
+//   width: 480,
 //   height: 480,
 // });
 
@@ -16,7 +16,7 @@
 figma.showUI(
   `<script>window.location.href="https://runwayml.github.io/figma-plugin/ui.html?${Math.random()}";</script>`,
   {
-    width: 320,
+    width: 480,
     height: 480,
   }
 );
