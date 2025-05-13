@@ -7,7 +7,7 @@
 
 ## Setting up a hosted page
 
-5. To run the plugin, you need to host ui.html on a website somewhere. You can do so with [Github pages](https://pages.github.com/) or any service that you prefer. Once uploaded, grab the link eg. (https://runway.github.io/figma-plugin/ui.html) and replace it in line 17 of code.ts.
+5. To run the plugin, you need to host ui.html on a website somewhere. You can do so with [Github pages](https://pages.github.com/) or any service that you prefer. Once uploaded, grab the link eg. (https://runwayml.github.io/figma-plugin/ui.html) and replace it in line 17 of code.ts.
 
 5.1. Go to manifest.json and add your domain name to allowedDomains.
 
@@ -15,7 +15,7 @@
 
 Disclaimer: The Runway API only allows server-side calls to protect API users by avoiding the potential of API keys leaking. This tutorial recommends a 3rd party service that we have no affiliation with to serve as the proxy between the plugin, and the Runway API. You can, and should implement this proxy on your own if you are to implement this plugin for your own need.
 
-6. Go to https://corsfix.com and sign up for an account. Create an application and add your domain (eg. https://runway.github.io) and https://figma.com to Allowed Origins. You can choose to keep All domains for "Allowed domains", or choose to add https://api.dev.runwayml.com as an allowed custom domain.
+6. Go to https://corsfix.com and sign up for an account. Create an application and add your domain (eg. https://runwayml.github.io) and https://figma.com to Allowed Origins. You can choose to keep All domains for "Allowed domains", or choose to add https://api.dev.runwayml.com as an allowed custom domain.
 
 ## Setting up your Runway API account
 

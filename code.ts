@@ -14,7 +14,7 @@
 
 // IMPORTANT: Update the URL to your own hosted service, and then add the domain to the allowlist on corsfix.
 figma.showUI(
-  `<script>window.location.href="https://runway.github.io/figma-plugin/ui.html?${Math.random()}";</script>`,
+  `<script>window.location.href="https://runwayml.github.io/figma-plugin/ui.html?${Math.random()}";</script>`,
   {
     width: 320,
     height: 480,
