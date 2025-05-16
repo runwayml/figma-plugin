@@ -9,7 +9,7 @@
 // Uncomment the following to use this for local dev mode.
 // figma.showUI(__html__, {
 //   width: 480,
-//   height: 480,
+//   height: 800,
 // });
 
 // IMPORTANT: Update the URL to your own hosted service, and then add the domain to the allowlist on corsfix.
@@ -17,7 +17,7 @@ figma.showUI(
   `<script>window.location.href="https://runwayml.github.io/figma-plugin/ui.html?${Math.random()}";</script>`,
   {
     width: 480,
-    height: 480,
+    height: 800,
   }
 );
 
@@ -215,6 +215,8 @@ figma.ui.onmessage = async (msg) => {
   } else if (msg.type === "generate-image") {
     const selection = figma.currentPage.selection;
     const base64Images = await getBase64Images(selection);
+    // check aspect ratio of base64Images and make sure they are between 0.5 and 2. If not, resize them to the closest aspect ratio proportional to the original size
+
     figma.ui.postMessage({
       type: "start-image-generation",
       imageData: base64Images,
