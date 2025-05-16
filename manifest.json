@@ -7,11 +7,11 @@
   "enableProposedApi": false,
   "documentAccess": "dynamic-page",
   "editorType": ["figma"],
-  "ui": "ui.html",
+  "ui": "index.html",
   "networkAccess": {
     "allowedDomains": [
       "https://proxy.corsfix.com",
-      "https://runwayml.github.io",
+      "https://<YOUR_REPO_NAME>.github.io",
       "https://dnznrvs05pmza.cloudfront.net",
       "https://fonts.googleapis.com",
       "https://fonts.gstatic.com",
