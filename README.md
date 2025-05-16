@@ -1,3 +1,5 @@
+[![Demo](demo.png)](demo.png)
+
 # Steps to install and use the Runway plugin
 
 1. Install the [Figma Desktop App](https://www.figma.com/downloads/) if you haven't already.
