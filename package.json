@@ -13,7 +13,7 @@
   "license": "",
   "dependencies": {
     "@create-figma-plugin/ui": "^2.5.1",
-    "@create-figma-plugin/utilities": "^2.5.1"
+    "@create-figma-plugin/utilities": "^4.0.0"
   },
   "devDependencies": {
     "@figma/eslint-plugin-figma-plugins": "*",
