@@ -12,7 +12,7 @@
   "author": "",
   "license": "",
   "dependencies": {
-    "@create-figma-plugin/ui": "^2.5.1",
+    "@create-figma-plugin/ui": "^4.0.0",
     "@create-figma-plugin/utilities": "^2.5.1"
   },
   "devDependencies": {
